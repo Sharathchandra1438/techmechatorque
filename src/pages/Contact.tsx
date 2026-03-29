@@ -63,7 +63,7 @@ const Contact = () => {
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition"
-                      placeholder="+91 98765 43210"
+                      placeholder="+91 7993442607"
                     />
                   </div>
                   <div>
@@ -161,7 +161,7 @@ const Contact = () => {
 
       {/* WhatsApp FAB */}
       <a
-        href="https://wa.me/919876543210"
+        href="https://wa.me/917993442607"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[hsl(142,70%,45%)] text-primary-foreground rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
