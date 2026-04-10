@@ -22,6 +22,122 @@ const packages = [
   { name: "Maintenance Packages", path: "/packages/maintenance" },
 ];
 
+// -------------------------------------------------------
+// Mobile-only menu — has its own isolated accordion state
+// so the desktop click-outside handler never interferes.
+// -------------------------------------------------------
+const MobileMenu = ({
+  mobileOpen,
+  setMobileOpen,
+}: {
+  mobileOpen: boolean;
+  setMobileOpen: (v: boolean) => void;
+}) => {
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobilePackagesOpen, setMobilePackagesOpen] = useState(false);
+
+  if (!mobileOpen) return null;
+
+  return (
+    <div className="lg:hidden absolute top-full left-0 w-full bg-background border-b border-border shadow-xl max-h-[calc(100vh-4rem)] overflow-y-auto z-50">
+      <div className="px-4 py-4 flex flex-col gap-4">
+        <Link
+          to="/"
+          className="text-lg font-medium"
+          onClick={() => setMobileOpen(false)}
+        >
+          Home
+        </Link>
+
+        {/* Services accordion */}
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={() => {
+              setMobileServicesOpen((prev) => !prev);
+              setMobilePackagesOpen(false);
+            }}
+            className="flex items-center justify-between text-lg font-medium w-full text-left"
+          >
+            Services
+            <ChevronDown
+              size={18}
+              className={`transition-transform duration-200 ${
+                mobileServicesOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+          {mobileServicesOpen && (
+            <div className="pl-4 pb-2 flex flex-col gap-3 border-l-2 border-primary/20 mt-2">
+              {services.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-muted-foreground hover:text-foreground text-base py-1"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Packages accordion */}
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={() => {
+              setMobilePackagesOpen((prev) => !prev);
+              setMobileServicesOpen(false);
+            }}
+            className="flex items-center justify-between text-lg font-medium w-full text-left"
+          >
+            Packages
+            <ChevronDown
+              size={18}
+              className={`transition-transform duration-200 ${
+                mobilePackagesOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+          {mobilePackagesOpen && (
+            <div className="pl-4 pb-2 flex flex-col gap-3 border-l-2 border-primary/20 mt-2">
+              {packages.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-muted-foreground hover:text-foreground text-base py-1"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <Link
+          to="/contact"
+          className="text-lg font-medium"
+          onClick={() => setMobileOpen(false)}
+        >
+          Contact
+        </Link>
+
+        <Link
+          to="/contact"
+          onClick={() => setMobileOpen(false)}
+          className="mt-4 px-5 py-3 w-full bg-primary text-primary-foreground font-semibold text-center rounded-lg hover:bg-primary/90 transition-all"
+        >
+          Get In Touch
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+// -------------------------------------------------------
+// Main Navbar
+// -------------------------------------------------------
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -29,21 +145,21 @@ const Navbar = () => {
   const [packagesOpen, setPackagesOpen] = useState(false);
   const location = useLocation();
 
-  const servicesRef = useRef(null);
-  const packagesRef = useRef(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const packagesRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
+  // Close desktop dropdowns when clicking outside their containers
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         servicesRef.current &&
-        !servicesRef.current.contains(event.target)
+        !servicesRef.current.contains(event.target as Node)
       ) {
         setServicesOpen(false);
       }
       if (
         packagesRef.current &&
-        !packagesRef.current.contains(event.target)
+        !packagesRef.current.contains(event.target as Node)
       ) {
         setPackagesOpen(false);
       }
@@ -53,13 +169,20 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Close everything on navigation
   useEffect(() => {
     setMobileOpen(false);
     setServicesOpen(false);
     setPackagesOpen(false);
   }, [location.pathname]);
 
-  const DropdownMenu = ({ items, open }) => (
+  const DropdownMenu = ({
+    items,
+    open,
+  }: {
+    items: { name: string; path: string }[];
+    open: boolean;
+  }) => (
     <div
       className={`absolute top-full left-0 w-56 bg-card border border-border rounded-xl shadow-xl overflow-hidden transition-all duration-200 z-50 ${
         open
@@ -82,14 +205,23 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-xl border-b border-border">
       <div className="container-main flex items-center justify-between h-16 md:h-20">
-        <Link to="/">
-          <img src="/assets/logo3.png" className="h-10" />
+        <Link to="/" className="flex flex-col leading-none">
+          <span className="font-heading font-bold text-xl tracking-tight">
+            <span className="text-gradient">Marketing</span>{" "}
+            <span className="text-foreground">Spaces</span>
+          </span>
+          <span className="text-[10px] text-muted-foreground tracking-widest uppercase mt-0.5">
+            A TMT Enterprise
+          </span>
         </Link>
 
+        {/* Desktop links */}
         <div className="hidden lg:flex items-center gap-8">
-          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/" className="nav-link">
+            Home
+          </Link>
 
-          {/* Services */}
+          {/* Desktop Services dropdown */}
           <div className="relative" ref={servicesRef}>
             <button
               onClick={() => {
@@ -101,13 +233,15 @@ const Navbar = () => {
               Services
               <ChevronDown
                 size={14}
-                className={`transition-transform ${servicesOpen ? "rotate-180" : ""}`}
+                className={`transition-transform ${
+                  servicesOpen ? "rotate-180" : ""
+                }`}
               />
             </button>
             <DropdownMenu items={services} open={servicesOpen} />
           </div>
 
-          {/* Packages */}
+          {/* Desktop Packages dropdown */}
           <div className="relative" ref={packagesRef}>
             <button
               onClick={() => {
@@ -119,16 +253,20 @@ const Navbar = () => {
               Packages
               <ChevronDown
                 size={14}
-                className={`transition-transform ${packagesOpen ? "rotate-180" : ""}`}
+                className={`transition-transform ${
+                  packagesOpen ? "rotate-180" : ""
+                }`}
               />
             </button>
             <DropdownMenu items={packages} open={packagesOpen} />
           </div>
 
-          {/* <Link to="/about" className="nav-link">About</Link> */}
-          <Link to="/contact" className="nav-link">Contact</Link>
+          <Link to="/contact" className="nav-link">
+            Contact
+          </Link>
         </div>
 
+        {/* Right-side controls */}
         <div className="flex items-center gap-3">
           <button
             onClick={toggleTheme}
@@ -152,6 +290,9 @@ const Navbar = () => {
           </button>
         </div>
       </div>
+
+      {/* Mobile menu rendered as a separate component with its own state */}
+      <MobileMenu mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
     </nav>
   );
 };

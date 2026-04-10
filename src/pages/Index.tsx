@@ -44,22 +44,17 @@ const Index = () => {
         <div className="container-main">
           <div className="max-w-4xl">
             <ScrollReveal>
-              <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-4">
-                Why Not Do It
-              </p>
-            </ScrollReveal>
-            <ScrollReveal delay={100}>
               <h1 className="heading-xl leading-tight mb-6">
                 Engineering Digital Growth with{" "}
                 <span className="text-gradient">Precision & Power</span>
               </h1>
             </ScrollReveal>
-            <ScrollReveal delay={200}>
+            <ScrollReveal delay={100}>
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 leading-relaxed">
                 We help businesses grow using data-driven strategies, automation, and high-performance marketing systems.
               </p>
             </ScrollReveal>
-            <ScrollReveal delay={300}>
+            <ScrollReveal delay={200}>
               <div className="flex flex-wrap gap-4">
                 <Link
                   to="/services"
@@ -79,6 +74,116 @@ const Index = () => {
         </div>
       </section>
 
+      
+      {/* Clients Section */}
+      <section className="section-padding bg-secondary/30">
+        <div className="container-main">
+          
+          {/* Heading */}
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <h2 className="heading-lg mb-4">
+                Trusted by <span className="text-gradient">Our Clients</span>
+              </h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">
+                Real businesses. Real growth. Here’s what our clients say about working with us.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* Client Logos */}
+          <ScrollReveal delay={100}>
+            <div className="flex flex-wrap justify-center gap-8 mb-16">
+              
+              {/* Hotel Vedha */}
+              <div className="flex flex-col items-center justify-center w-56 h-32 rounded-2xl border border-border bg-background/60 hover:bg-background transition-all shadow-sm hover:shadow-md">
+                <img 
+                  src="/assets/vedhalogo.png" 
+                  alt="Hotel Vedha"
+                  className="h-12 object-contain mb-2"
+                />
+                <span className="text-sm text-muted-foreground">Hotel Vedha</span>
+              </div>
+
+              {/* CGR Hotel */}
+              <div className="flex flex-col items-center justify-center w-56 h-32 rounded-2xl border border-border bg-background/60 hover:bg-background transition-all shadow-sm hover:shadow-md">
+                <span className="font-semibold text-base">CGR Hotel Manjeera</span>
+                <span className="text-xs text-muted-foreground mt-1">Premium Hospitality</span>
+              </div>
+
+            </div>
+          </ScrollReveal>
+
+          {/* Testimonials */}
+          <div className="grid md:grid-cols-2 gap-8">
+            
+            {/* Vedha Testimonial */}
+            <ScrollReveal>
+              <div className="card-premium p-6 h-full flex flex-col justify-between relative overflow-hidden">
+                
+                {/* Accent */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+
+                {/* Stars */}
+                <div className="flex gap-1 mb-3">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={16} className="text-yellow-400 fill-yellow-400" />
+                  ))}
+                </div>
+
+                {/* Review */}
+                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                  "TMT helped us improve our online presence and significantly boost our customer reach. Their strategy and execution were spot on."
+                </p>
+
+                {/* Client Info */}
+                <div className="flex items-center gap-3">
+                  <img 
+                    src="/assets/vedhalogo.png" 
+                    alt="Vedha Logo"
+                    className="h-8 w-8 object-contain rounded"
+                  />
+                  <div>
+                    <p className="font-semibold text-sm">Rishi</p>
+                    <p className="text-xs text-muted-foreground">Director, Hotel Vedha</p>
+                  </div>
+                </div>
+
+              </div>
+            </ScrollReveal>
+
+            {/* CGR Testimonial */}
+            <ScrollReveal delay={100}>
+              <div className="card-premium p-6 h-full flex flex-col justify-between relative overflow-hidden">
+                
+                {/* Accent */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+
+                {/* Stars */}
+                <div className="flex gap-1 mb-3">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={16} className="text-yellow-400 fill-yellow-400" />
+                  ))}
+                </div>
+
+                {/* Review */}
+                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                  "Their marketing strategies brought us consistent leads and better visibility. We’ve seen strong growth in customer engagement."
+                </p>
+
+                {/* Client Info */}
+                <div>
+                  <p className="font-semibold text-sm">Vinod Reddy</p>
+                  <p className="text-xs text-muted-foreground">Director, CGR Hotel Manjeera</p>
+                </div>
+
+              </div>
+            </ScrollReveal>
+
+          </div>
+
+        </div>
+      </section>
       {/* About Preview */}
       <section className="section-padding bg-card/50">
         <div className="container-main">
